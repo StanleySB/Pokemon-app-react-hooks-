@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Создал базовый скелет приложения, написал кастомных хук useFetch для запросов на сервер, получил посты, примитивно отобразил на главной странице. Время примерно 2 часа
 
 ## Available Scripts
 
