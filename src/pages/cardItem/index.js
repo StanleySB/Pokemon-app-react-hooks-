@@ -19,8 +19,8 @@ const CardItem = (props) => {
     <div className="card">
       {response && (
         <>
-          <h1>{response.card.name}</h1>
-          <img src={response.card.imageUrlHiRes} alt="" />
+          <h1>{response.data.card.name}</h1>
+          <img src={response.data.card.imageUrlHiRes} alt="" />
         </>
       )}
     </div>
