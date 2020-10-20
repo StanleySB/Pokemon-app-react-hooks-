@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import Pagination from '../../../components/pagination';
 import useFetch from '../../../hooks/useFetch';
+import { cardLimit } from '../../../utils';
 
 const Cards = (props) => {
   const [{ isLoading, response, error }, doFetch] = useFetch('/cards');
@@ -13,8 +15,8 @@ const Cards = (props) => {
         props.match.path === '/cards/subtypes/:id'
           ? props.match.params.id
           : null,
-      pageSize: 10,
-      page: 6,
+      pageSize: cardLimit,
+      page: parseInt(props.location.search.replace(/[^\d]/g, '')),
     },
   });
   useEffect(() => {
@@ -29,12 +31,14 @@ const Cards = (props) => {
           props.match.path === '/cards/subtypes/:id'
             ? props.match.params.id
             : null,
-        pageSize: 10,
-        page: 1,
+        pageSize: cardLimit,
+        page: parseInt(props.location.search.replace(/[^\d]/g, '')),
       },
     });
-  }, [props.match.params.id, props.match.path]);
+  }, [props.match.params.id, props.match.path, props.location.search]);
 
+  // console.log(parseInt(props.location.search.replace(/[^\d]/g, '')));
+  // console.log(response);
   //сделать что-то с повторением кода выше !!!!!!
 
   useEffect(() => {
@@ -42,7 +46,7 @@ const Cards = (props) => {
   }, [doFetch, params]);
 
   if (isLoading || !response) {
-    return <div className="loading">loading</div>;
+    return <div className="loading">Loading</div>;
   }
   if (error) {
     return <div className="error">Error</div>;
@@ -50,13 +54,19 @@ const Cards = (props) => {
 
   return (
     <div className="cards">
-      {response.cards.map((card) => (
+      {response.data.cards.map((card) => (
         <NavLink to={`/cards/${card.id}`} key={card.id} className="card">
           <img src={card.imageUrl} alt={`${card.name} img`} />
           <div className="name">{card.name}</div>
           <div className="artist">{card.artist}</div>
         </NavLink>
       ))}
+      <Pagination
+        total={response.headers['total-count']}
+        limit={cardLimit}
+        currentPage={parseInt(props.location.search.replace(/[^\d]/g, '')) || 1}
+        url={`${props.match.url}`}
+      />
     </div>
   );
 };

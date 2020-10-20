@@ -21,11 +21,11 @@ export default (url) => {
     axios(baseUrl + url, requestOptions)
       .then((res) => {
         setIsLoading(false);
-        setResponse(res.data);
+        setResponse(res);
       })
       .catch((error) => {
         setIsLoading(false);
-        setError(error.response.data);
+        setError(error);
       });
   }, [isLoading, options, url]);
   return [

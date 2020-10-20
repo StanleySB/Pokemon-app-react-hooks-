@@ -35,8 +35,8 @@ const Select = (props) => {
         {props.label || 'Loading..'}
       </button>
       {isOpen &&
-        response[props.url] &&
-        response[props.url].map((value) => (
+        response.data[props.url] &&
+        response.data[props.url].map((value) => (
           <NavLink to={`/cards/${props.url}/${value}`} key={value}>
             {value}
           </NavLink>

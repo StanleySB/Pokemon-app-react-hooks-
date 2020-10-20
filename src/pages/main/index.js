@@ -1,6 +1,5 @@
 import React from 'react';
 import Cards from './components/cards';
-import Pagination from './components/pagination';
 import Select from './components/select';
 
 const Main = (props) => {
@@ -8,12 +7,11 @@ const Main = (props) => {
     <div className="container">
       <div className="select">
         <Select url="types" label="Types" />
-        <Select url="subtypes" label="SubType" />
+        <Select url="subtypes" label="SubTypes" />
       </div>
       <div className="cards">
-        <Cards match={props.match} />
+        <Cards match={props.match} location={props.location} />
       </div>
-      <Pagination />
     </div>
   );
 };
