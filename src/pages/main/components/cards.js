@@ -16,7 +16,7 @@ const Cards = (props) => {
           ? props.match.params.id
           : null,
       pageSize: cardLimit,
-      page: parseInt(props.location.search.replace(/[^\d]/g, '')),
+      page: parseInt(props.location.search.replace(/[^\d]/g, '')) || 1,
     },
   });
   useEffect(() => {
@@ -32,7 +32,7 @@ const Cards = (props) => {
             ? props.match.params.id
             : null,
         pageSize: cardLimit,
-        page: parseInt(props.location.search.replace(/[^\d]/g, '')),
+        page: parseInt(props.location.search.replace(/[^\d]/g, '')) || 1,
       },
     });
   }, [props.match.params.id, props.match.path, props.location.search]);
@@ -53,21 +53,34 @@ const Cards = (props) => {
   }
 
   return (
-    <div className="cards">
-      {response.data.cards.map((card) => (
-        <NavLink to={`/cards/${card.id}`} key={card.id} className="card">
-          <img src={card.imageUrl} alt={`${card.name} img`} />
-          <div className="name">{card.name}</div>
-          <div className="artist">{card.artist}</div>
-        </NavLink>
-      ))}
+    <>
+      <div className="row">
+        {response.data.cards.map((card) => (
+          <div className="col-md-4 rounded" key={card.id}>
+            <div className="card mt-3">
+              <img
+                className="card-img-top"
+                src={card.imageUrl}
+                alt={`${card.name} img`}
+              />
+              <div className="card-body">
+                <h3 className="card-title">{card.name}</h3>
+                <div className="card-text">Artist: {card.artist}</div>
+              </div>
+              <NavLink className="btn btn-primary" to={`/cards/${card.id}`}>
+                Подробнее
+              </NavLink>
+            </div>
+          </div>
+        ))}
+      </div>
       <Pagination
         total={response.headers['total-count']}
         limit={cardLimit}
         currentPage={parseInt(props.location.search.replace(/[^\d]/g, '')) || 1}
         url={`${props.match.url}`}
       />
-    </div>
+    </>
   );
 };
 

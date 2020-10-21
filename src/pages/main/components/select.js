@@ -8,6 +8,7 @@ const Select = (props) => {
   //hooks
   const [{ isLoading, response, error }, doFetch] = useFetch(`/${props.url}`);
   const [isOpen, setIsOpen] = useState(false);
+  const [filter, setFilter] = useState();
 
   //useHooks
   useEffect(() => {
@@ -18,9 +19,26 @@ const Select = (props) => {
     if (isOpen) {
       setIsOpen(false);
     } else {
+      setFilter(response.data[props.url]);
       setIsOpen(true);
     }
   };
+
+  //filter
+
+  const inputFilter = (arr, event) => {
+    let result = [];
+    arr.forEach((value) => {
+      if (value.toLowerCase().indexOf(event.target.value) === 0) {
+        result.push(value);
+      }
+      return value;
+    });
+    setFilter(result);
+    return result;
+  };
+
+  // !! отрефакторить компонент
 
   //render
   if (isLoading || !response) {
@@ -30,17 +48,25 @@ const Select = (props) => {
     return <h1>Some Error</h1>;
   }
   return (
-    <div className="select">
+    <div className="card">
       <button onClick={() => toggleIsOpen()}>
-        {props.label || 'Loading..'}
+        {<div className="card-header">{props.label}</div> || 'Loading..'}
       </button>
-      {isOpen &&
-        response.data[props.url] &&
-        response.data[props.url].map((value) => (
-          <NavLink to={`/cards/${props.url}/${value}`} key={value}>
-            {value}
-          </NavLink>
-        ))}
+      {isOpen && response.data[props.url] && (
+        <ul className="list-group list-group-flush">
+          <input
+            type="text"
+            onInput={(e) => {
+              inputFilter(response.data[props.url], e);
+            }}
+          />
+          {filter.map((value) => (
+            <li className="list-group-item" key={value}>
+              <NavLink to={`/cards/${props.url}/${value}`}>{value}</NavLink>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
