@@ -21,9 +21,21 @@ const Cards = (props) => {
   });
 
   useEffect(() => {
-    setParams((params) => ({
-      ...params,
-    }));
+    setParams({
+      method: 'get',
+      params: {
+        types:
+          props.match.path === '/cards/types/:id'
+            ? props.match.params.id
+            : null,
+        subtype:
+          props.match.path === '/cards/subtypes/:id'
+            ? props.match.params.id
+            : null,
+        pageSize: cardLimit,
+        page: parseInt(props.location.search.replace(/[^\d]/g, '')) || 1,
+      },
+    });
   }, [props.match.params.id, props.match.path, props.location.search]);
 
   useEffect(() => {
