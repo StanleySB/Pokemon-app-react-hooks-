@@ -19,11 +19,12 @@ const Select = (props) => {
     if (isOpen) {
       setIsOpen(false);
     } else {
-      setFilter(response.data[props.url]);
       setIsOpen(true);
+      setFilter(response.data[props.url]);
     }
   };
 
+  //setFilter вынести из открытия, появляются ошибки
   //filter
 
   const inputFilter = (arr, event) => {
@@ -39,19 +40,14 @@ const Select = (props) => {
   };
 
   // !! отрефакторить компонент
-
   //render
-  if (isLoading || !response) {
-    return <p>Loading</p>;
-  }
-  if (error) {
-    return <h1>Some Error</h1>;
-  }
   return (
     <div className="card">
       <button onClick={() => toggleIsOpen()}>
         {<div className="card-header">{props.label}</div> || 'Loading..'}
       </button>
+      {isOpen && !response && isLoading && <span>Loading...</span>}
+      {isOpen && !response && error && <span>error...</span>}
       {isOpen && response.data[props.url] && (
         <ul className="list-group list-group-flush">
           <input
@@ -72,3 +68,5 @@ const Select = (props) => {
 };
 
 export default Select;
+
+// Додумать реализацию фильтра по типу + подтипу

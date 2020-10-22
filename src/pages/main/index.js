@@ -7,7 +7,7 @@ const Main = (props) => {
     <div className="container mt-5">
       <div className="row">
         <div className="select col-md-4">
-          <Select url="types" label="Types" />
+          <Select url="types" label="Types" match={props.match} />
           <Select url="subtypes" label="SubTypes" />
         </div>
         <div className="col-md-8">

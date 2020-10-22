@@ -1,12 +1,20 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import CardItem from './pages/cardItem';
 import Authentication from './pages/authentication';
 import Main from './pages/main';
+import { CurrentUserContext } from './context/currentUserContext';
 
 export default () => {
+  const [currentUserState] = useContext(CurrentUserContext);
   return (
     <Switch>
+      {!currentUserState.isLoggedIn && (
+        <>
+          <Route path="/login" component={Authentication} />
+          <Redirect to="/login" />
+        </>
+      )}
       <Route path="/" exact component={Main} />
       <Route path="/login" component={Authentication} />
       <Route path="/cards/:id" exact component={CardItem} />
@@ -15,3 +23,5 @@ export default () => {
     </Switch>
   );
 };
+
+// Убрать ворнинг в роутах
