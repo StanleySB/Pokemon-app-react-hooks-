@@ -6,19 +6,7 @@ import { cardLimit } from '../../../utils';
 
 const Cards = (props) => {
   const [{ isLoading, response, error }, doFetch] = useFetch('/cards');
-  const [params, setParams] = useState({
-    method: 'get',
-    params: {
-      types:
-        props.match.path === '/cards/types/:id' ? props.match.params.id : null,
-      subtype:
-        props.match.path === '/cards/subtypes/:id'
-          ? props.match.params.id
-          : null,
-      pageSize: cardLimit,
-      page: parseInt(props.location.search.replace(/[^\d]/g, '')) || 1,
-    },
-  });
+  const [params, setParams] = useState('');
 
   useEffect(() => {
     setParams({
@@ -36,18 +24,19 @@ const Cards = (props) => {
         page: parseInt(props.location.search.replace(/[^\d]/g, '')) || 1,
       },
     });
-  }, [props.match.params.id, props.match.path, props.location.search]);
+  }, [props.match, props.location.search]);
 
   useEffect(() => {
-    doFetch(params);
+    params && doFetch(params);
   }, [doFetch, params]);
-
+  console.log('test');
   return (
     <>
       <div className="row">
         {error && <div className="error">Error</div>}
-        {isLoading || (!response && <div className="loading">Loading</div>)}
-        {response &&
+        {isLoading && <div className="loading">Loading</div>}
+        {!isLoading &&
+          response &&
           response.data.cards.map((card) => (
             <div className="col-md-4 rounded" key={card.id}>
               <div className="card mt-3">

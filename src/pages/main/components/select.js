@@ -10,17 +10,19 @@ const Select = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [filter, setFilter] = useState();
 
-  //useHooks
+  useEffect(() => {
+    setFilter(response && response.data[props.url]);
+  }, [response, props]);
+
   useEffect(() => {
     doFetch();
-  }, [doFetch]);
+  }, [doFetch, props]);
 
   const toggleIsOpen = () => {
     if (isOpen) {
       setIsOpen(false);
     } else {
       setIsOpen(true);
-      setFilter(response.data[props.url]);
     }
   };
 
@@ -41,13 +43,14 @@ const Select = (props) => {
 
   // !! отрефакторить компонент
   //render
+  // при рендере есть проблема с inputFilter. Если нет ответа, нажатие на кнопку вызывает ошибку
   return (
     <div className="card">
       <button onClick={() => toggleIsOpen()}>
         {<div className="card-header">{props.label}</div> || 'Loading..'}
       </button>
-      {isOpen && !response && isLoading && <span>Loading...</span>}
-      {isOpen && !response && error && <span>error...</span>}
+      {!response && isLoading && <li>Loading...</li>}
+      {!response && error && <li>error...</li>}
       {isOpen && response.data[props.url] && (
         <ul className="list-group list-group-flush">
           <input
