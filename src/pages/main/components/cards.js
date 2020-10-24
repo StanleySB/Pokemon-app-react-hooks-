@@ -29,7 +29,7 @@ const Cards = (props) => {
   useEffect(() => {
     params && doFetch(params);
   }, [doFetch, params]);
-  console.log('test');
+
   return (
     <>
       <div className="row">

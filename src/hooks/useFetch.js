@@ -14,11 +14,8 @@ export default (url) => {
   }, []);
 
   useEffect(() => {
-    const requestOptions = {
-      ...options,
-    };
     if (!isLoading) return;
-    axios(baseUrl + url, requestOptions)
+    axios(baseUrl + url, options)
       .then((res) => {
         setIsLoading(false);
         setResponse(res);

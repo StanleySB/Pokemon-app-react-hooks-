@@ -6,7 +6,7 @@ const TopBar = () => {
   const [currentUserState] = useContext(CurrentUserContext);
   return (
     <>
-      {currentUserState.isLoggedIn && (
+      {currentUserState.isLoggedIn ? (
         <nav className="navbar navbar-dark bg-dark d-flex justify-content-between">
           <div className="container">
             <NavLink className="btn btn-primary" to="/">
@@ -17,7 +17,7 @@ const TopBar = () => {
             </a>
           </div>
         </nav>
-      )}
+      ) : null}
     </>
   );
 };
