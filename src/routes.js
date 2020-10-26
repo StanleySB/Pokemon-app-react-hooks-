@@ -11,8 +11,9 @@ export default () => {
       <Route path="/" exact component={Main} />
       <Route path="/login" component={Authentication} />
       <Route path="/cards/:id" exact component={CardItem} />
-      <Route path="/cards/types/:id" component={Main} />
-      <Route path="/cards/subtypes/:id" component={Main} />
+      <Route path="/cards/type/:typeId" exact component={Main} />
+      <Route path="/cards/subtype/:subtypeId" component={Main} />
+      <Route path="/cards/type/:typeId/subtype/:subtypeId" component={Main} />
       <Redirect to="/" />
     </Switch>
   );

@@ -1,30 +1,233 @@
-import React, { useContext } from 'react';
-import { Redirect } from 'react-router-dom';
-import { CurrentUserContext } from '../../context/currentUserContext';
-import Cards from './components/cards';
-import Select from './components/select';
+import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import Pagination from '../../components/pagination';
+import Select from '../../components/select';
+import useFetch from '../../hooks/useFetch';
+import { cardLimit, inputFilter } from '../../utils';
 
 const Main = (props) => {
-  const [currentUserState] = useContext(CurrentUserContext);
-  console.log(currentUserState.isLoggedIn);
+  //hooks
+  //types hooks
+  const [
+    { isLoading: isLoadingTypes, response: responseTypes, error: errorTypes },
+    doFetchTypes,
+  ] = useFetch(`/types`);
+  const [
+    {
+      isLoading: isLoadingSubTypes,
+      response: responseSubTypes,
+      error: errorSubTypes,
+    },
+    doFetchSubTypes,
+  ] = useFetch(`/subtypes`);
+  const [currentSelect, setCurrentSelect] = useState({});
+  const [subtypesFilter, setSubtypesFilter] = useState();
+  const [typesFilter, setTypesFilter] = useState();
+  //cards hooks
+  const [
+    { isLoading: isLoadingCards, response: responseCards, error: errorCards },
+    doFetchCards,
+  ] = useFetch('/cards');
+  const [params, setParams] = useState('');
+
+  //получение селектов
+  useEffect(() => {
+    doFetchTypes();
+    doFetchSubTypes();
+  }, [doFetchTypes, doFetchSubTypes]);
+
+  // добавление типов и подтипов в state для фильта
+
+  useEffect(() => {
+    setSubtypesFilter(responseSubTypes && responseSubTypes.data.subtypes);
+    setTypesFilter(responseTypes && responseTypes.data.types);
+  }, [setSubtypesFilter, setTypesFilter, responseSubTypes, responseTypes]);
+
+  // сетим параметры, если они заданы в url
+  useEffect(() => {
+    if (!currentSelect.subtype && props.match.params.subtypeId) {
+      setCurrentSelect({
+        ...currentSelect,
+        subtype: props.match.params.subtypeId,
+      });
+    }
+    if (!currentSelect.type && props.match.params.typeId) {
+      setCurrentSelect({
+        ...currentSelect,
+        type: props.match.params.typeId,
+      });
+    }
+  }, [props.match.params.subtypeId, props.match.params.typeId, currentSelect]);
+
+  //сетим параметры для fetch
+  useEffect(() => {
+    setParams({
+      method: 'get',
+      params: {
+        types: currentSelect.type || props.match.params.typeId || null,
+        subtype: currentSelect.subtype || props.match.params.subtypeId || null,
+        pageSize: cardLimit,
+        page: parseInt(props.location.search.replace(/[^\d]/g, '')) || 1,
+      },
+    });
+  }, [props.match, props.location.search, currentSelect]);
+
+  // запрос на сервер с указанными параметрами
+  useEffect(() => {
+    params && doFetchCards(params);
+  }, [doFetchCards, params]);
+
   return (
-    <>
-      {currentUserState.isLoggedIn ? (
-        <div className="container mt-5">
-          <div className="row">
-            <div className="select col-md-4">
-              <Select url="types" label="Types" match={props.match} />
-              <Select url="subtypes" label="SubTypes" />
-            </div>
-            <div className="col-md-8">
-              <Cards match={props.match} location={props.location} />
-            </div>
-          </div>
+    <div className="container mt-5">
+      <div className="row">
+        <div className="col-md-4 selects">
+          {/* рендер селектов происходит здесь для того чтобы просто сетить данные */}
+          <Select
+            error={errorTypes ? errorTypes : null}
+            isLoading={isLoadingTypes ? isLoadingTypes : null}
+            label="Types"
+          >
+            {responseTypes && (
+              <input
+                type="text"
+                onInput={(e) => {
+                  inputFilter(responseTypes.data.types, e, setTypesFilter);
+                }}
+              />
+            )}
+            <li className="list-group-item">
+              <NavLink
+                onClick={() =>
+                  setCurrentSelect({
+                    ...currentSelect,
+                    type: null,
+                  })
+                }
+                to={
+                  currentSelect.subtype
+                    ? `/cards/subtype/${currentSelect.subtype}`
+                    : '/'
+                }
+              >
+                All Types
+              </NavLink>
+            </li>
+            {typesFilter &&
+              typesFilter.map((type, index) => (
+                <li key={index} className="list-group-item">
+                  <NavLink
+                    onClick={() =>
+                      setCurrentSelect({
+                        ...currentSelect,
+                        type: type,
+                      })
+                    }
+                    to={
+                      currentSelect.subtype
+                        ? `/cards/type/${type}/subtype/${currentSelect.subtype}`
+                        : `/cards/type/${type}`
+                    }
+                  >
+                    {type}
+                  </NavLink>
+                </li>
+              ))}
+          </Select>
+          <Select
+            error={errorSubTypes ? errorSubTypes : null}
+            isLoading={isLoadingSubTypes ? isLoadingSubTypes : null}
+            label="Subtypes"
+          >
+            {responseSubTypes && (
+              <input
+                type="text"
+                onInput={(e) => {
+                  inputFilter(
+                    responseSubTypes.data.subtypes,
+                    e,
+                    setSubtypesFilter
+                  );
+                }}
+              />
+            )}
+            <li className="list-group-item">
+              <NavLink
+                onClick={() =>
+                  setCurrentSelect({
+                    ...currentSelect,
+                    subtype: null,
+                  })
+                }
+                to={
+                  currentSelect.type ? `/cards/type/${currentSelect.type}` : '/'
+                }
+              >
+                All Subtypes
+              </NavLink>
+            </li>
+            {subtypesFilter &&
+              subtypesFilter.map((subtype, index) => (
+                <li key={index} className="list-group-item">
+                  <NavLink
+                    onClick={() =>
+                      setCurrentSelect({
+                        ...currentSelect,
+                        subtype: subtype,
+                      })
+                    }
+                    to={
+                      currentSelect.type
+                        ? `/cards/type/${currentSelect.type}/subtype/${subtype}`
+                        : `/cards/subtype/${subtype}`
+                    }
+                  >
+                    {subtype}
+                  </NavLink>
+                </li>
+              ))}
+          </Select>
         </div>
-      ) : (
-        <Redirect to="/login" />
-      )}
-    </>
+        <div className="col-md-8 cards">
+          <div className="row">
+            {errorCards && <div className="error">Error</div>}
+            {isLoadingCards && <div className="loading">Loading</div>}
+            {!isLoadingCards &&
+              responseCards &&
+              responseCards.data.cards.map((card) => (
+                <div className="col-md-4 rounded" key={card.id}>
+                  <div className="card mt-3">
+                    <img
+                      className="card-img-top"
+                      src={card.imageUrl}
+                      alt={`${card.name} img`}
+                    />
+                    <div className="card-body">
+                      <h3 className="card-title">{card.name}</h3>
+                      <div className="card-text">Artist: {card.artist}</div>
+                    </div>
+                    <NavLink
+                      className="btn btn-primary"
+                      to={`/cards/${card.id}`}
+                    >
+                      Подробнее
+                    </NavLink>
+                  </div>
+                </div>
+              ))}
+          </div>
+          {responseCards && (
+            <Pagination
+              total={responseCards.headers['total-count']}
+              limit={cardLimit}
+              currentPage={
+                parseInt(props.location.search.replace(/[^\d]/g, '')) || 1
+              }
+              url={`${props.match.url}`}
+            />
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

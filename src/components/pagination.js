@@ -22,6 +22,8 @@ const Pagination = ({ total, limit, url, currentPage }) => {
   //Например для страницы 5 при отступе 3 будет [first page, prev page, 5,6,7 nextpage, lastpage]
   const arrayOfRenderedPages = []; // Массив в который будут записываться числа для пагинации
 
+  if (pages.length === 0) return null;
+
   const conditionForRender = () => {
     // Условия отсупов при пагинации
     if (pages.length < paginationOffset * 2) return 1; // для рендера пагинации с маленьким количеством страниц
