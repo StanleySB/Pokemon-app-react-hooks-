@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/Pokemon-app-react-hooks-/static/css/main.82ee820b.chunk.css",
-    "main.js": "/Pokemon-app-react-hooks-/static/js/main.ef4eca9f.chunk.js",
-    "main.js.map": "/Pokemon-app-react-hooks-/static/js/main.ef4eca9f.chunk.js.map",
+    "main.js": "/Pokemon-app-react-hooks-/static/js/main.71d2aafd.chunk.js",
+    "main.js.map": "/Pokemon-app-react-hooks-/static/js/main.71d2aafd.chunk.js.map",
     "runtime-main.js": "/Pokemon-app-react-hooks-/static/js/runtime-main.bebd4d2d.js",
     "runtime-main.js.map": "/Pokemon-app-react-hooks-/static/js/runtime-main.bebd4d2d.js.map",
-    "static/js/2.588b7d70.chunk.js": "/Pokemon-app-react-hooks-/static/js/2.588b7d70.chunk.js",
-    "static/js/2.588b7d70.chunk.js.map": "/Pokemon-app-react-hooks-/static/js/2.588b7d70.chunk.js.map",
+    "static/js/2.1b869a63.chunk.js": "/Pokemon-app-react-hooks-/static/js/2.1b869a63.chunk.js",
+    "static/js/2.1b869a63.chunk.js.map": "/Pokemon-app-react-hooks-/static/js/2.1b869a63.chunk.js.map",
     "index.html": "/Pokemon-app-react-hooks-/index.html",
-    "precache-manifest.36f07126cdb062f169daa8a5070448bc.js": "/Pokemon-app-react-hooks-/precache-manifest.36f07126cdb062f169daa8a5070448bc.js",
+    "precache-manifest.be8715f032e2b2b95c53689c19e7a6c5.js": "/Pokemon-app-react-hooks-/precache-manifest.be8715f032e2b2b95c53689c19e7a6c5.js",
     "service-worker.js": "/Pokemon-app-react-hooks-/service-worker.js",
     "static/css/main.82ee820b.chunk.css.map": "/Pokemon-app-react-hooks-/static/css/main.82ee820b.chunk.css.map",
-    "static/js/2.588b7d70.chunk.js.LICENSE.txt": "/Pokemon-app-react-hooks-/static/js/2.588b7d70.chunk.js.LICENSE.txt",
+    "static/js/2.1b869a63.chunk.js.LICENSE.txt": "/Pokemon-app-react-hooks-/static/js/2.1b869a63.chunk.js.LICENSE.txt",
     "static/media/404.png": "/Pokemon-app-react-hooks-/static/media/404.626adc7f.png",
     "static/media/logo.png": "/Pokemon-app-react-hooks-/static/media/logo.96c5ba35.png"
   },
   "entrypoints": [
     "static/js/runtime-main.bebd4d2d.js",
-    "static/js/2.588b7d70.chunk.js",
+    "static/js/2.1b869a63.chunk.js",
     "static/css/main.82ee820b.chunk.css",
-    "static/js/main.ef4eca9f.chunk.js"
+    "static/js/main.71d2aafd.chunk.js"
   ]
 }
