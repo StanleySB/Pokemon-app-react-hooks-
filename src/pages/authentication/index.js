@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { CurrentUserContext } from '../../context/currentUserContext';
-import authImitation from '../../hooks/authImitation';
+import authImitation from '../../hooks/useAuthImitation';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { validateEmail, validatePassword } from '../../utils';
 
@@ -14,7 +14,7 @@ const Authentication = () => {
   const [currentUserState, setCurrentUserState] = useContext(
     CurrentUserContext
   );
-  const [backError, setError] = useState('');
+  const [backError, setBackError] = useState('');
   const [otpInput, setOtpInput] = useState('');
   const [isDataValid, setIsDataValid] = useState(false);
   const [isValidInputs, setIsValidInputs] = useState({
@@ -39,7 +39,7 @@ const Authentication = () => {
   };
 
   useEffect(() => {
-    if (error && setError(() => <p>Invalid data</p>));
+    if (error && setBackError(() => <p>Invalid data</p>));
     if (!response) return;
     console.log('OTP:', otp);
     setIsDataValid(true);
@@ -68,7 +68,10 @@ const Authentication = () => {
       {!currentUserState.isLoggedIn ? (
         <div className="container">
           <div className="row">
-            <div className="col-md-4 mx-auto" style={{ marginTop: '25vh' }}>
+            <div
+              className="col-md-4 mx-auto bg-light p-5 rounded-lg"
+              style={{ marginTop: '25vh' }}
+            >
               <h1>Auth</h1>
               {!isDataValid && (
                 <form onSubmit={onHandleSubmit}>

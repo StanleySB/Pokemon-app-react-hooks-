@@ -8,7 +8,11 @@ const PaginationItem = ({ page, currentPage, url }) => {
   };
   return (
     <li className={liClasses.pageItem}>
-      <Link className="page-link" to={`${url}?page=${page}`}>
+      <Link
+        style={{ height: '38px' }}
+        className="page-link"
+        to={`${url}?page=${page}`}
+      >
         {page}
       </Link>
     </li>
@@ -50,18 +54,38 @@ const Pagination = ({ total, limit, url, currentPage }) => {
     }
   };
   return (
-    <ul className="pagination justify-content-center my-5">
+    <ul className="pagination justify-content-center align-items-center my-3 row">
       {currentPage > paginationOffset + 1 ? (
         <li className="page-item">
-          <Link className="page-link" to={`${url}?page=1`}>
-            First page
+          <Link
+            className="page-link"
+            to={`${url}?page=1`}
+            style={{ height: '38px' }}
+          >
+            1
           </Link>
         </li>
       ) : null}
       {currentPage > 1 ? (
-        <li className="">
-          <Link className="page-link" to={`${url}?page=${currentPage - 1}`}>
-            Prev page
+        <li className="page-item">
+          <Link
+            className="page-link"
+            style={{ height: '38px' }}
+            to={`${url}?page=${currentPage - 1}`}
+          >
+            <svg
+              width="1em"
+              height="1em"
+              viewBox="0 0 16 16"
+              className="bi bi-arrow-left"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+              />
+            </svg>
           </Link>
         </li>
       ) : null}
@@ -74,16 +98,36 @@ const Pagination = ({ total, limit, url, currentPage }) => {
         />
       ))}
       {currentPage + 1 <= pages.length ? (
-        <li className="">
-          <Link className="page-link" to={`${url}?page=${currentPage + 1}`}>
-            Next page
+        <li className="page-item">
+          <Link
+            className="page-link"
+            to={`${url}?page=${currentPage + 1}`}
+            style={{ height: '38px' }}
+          >
+            <svg
+              width="1em"
+              height="1em"
+              viewBox="0 0 16 16"
+              className="bi bi-arrow-right"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+              />
+            </svg>
           </Link>
         </li>
       ) : null}
       {currentPage + paginationOffset + 1 < pages.length ? (
-        <li className="">
-          <Link className="page-link" to={`${url}?page=${pages.length}`}>
-            Last page
+        <li className="page-item">
+          <Link
+            style={{ height: '38px' }}
+            className="page-link"
+            to={`${url}?page=${pages.length}`}
+          >
+            {pages.length}
           </Link>
         </li>
       ) : null}

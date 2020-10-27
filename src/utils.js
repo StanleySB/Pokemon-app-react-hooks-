@@ -2,7 +2,7 @@ export const range = (start, end) => {
   return [...Array(end).keys()].map((el) => el + start);
 };
 
-export const cardLimit = 15;
+export const cardLimit = 6;
 
 export const inputFilter = (arr, event, setFilter) => {
   let result = [];

@@ -1,7 +1,7 @@
 //Core
 import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../context/currentUserContext';
-import authImitation from '../hooks/authImitation';
+import authImitation from '../hooks/useAuthImitation';
 
 import useLocalStorage from '../hooks/useLocalStorage';
 

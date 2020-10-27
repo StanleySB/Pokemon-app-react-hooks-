@@ -22,7 +22,7 @@ export default (url) => {
       })
       .catch((error) => {
         setIsLoading(false);
-        setError(error);
+        setError(error.response);
       });
   }, [isLoading, options, url]);
   return [

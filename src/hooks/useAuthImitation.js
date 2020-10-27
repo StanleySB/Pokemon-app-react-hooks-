@@ -23,7 +23,6 @@ export default () => {
         },
       },
     };
-    console.log(requestOptions);
     if (!isLoading) return;
     if (requestOptions.headers.authorization) {
       // В компоненте currentUserChecker идет запрос на указанный адрес с проверкой является
