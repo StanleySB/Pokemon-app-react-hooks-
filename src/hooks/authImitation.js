@@ -23,6 +23,7 @@ export default () => {
         },
       },
     };
+    console.log(requestOptions);
     if (!isLoading) return;
     if (requestOptions.headers.authorization) {
       // В компоненте currentUserChecker идет запрос на указанный адрес с проверкой является
@@ -39,7 +40,7 @@ export default () => {
     }
     if (
       requestOptions.data &&
-      requestOptions.data.user.username === 'kode@kode.ru' &&
+      requestOptions.data.user.email === 'kode@kode.ru' &&
       requestOptions.data.user.password === 'Enk0deng'
     ) {
       setIsLoading(false);

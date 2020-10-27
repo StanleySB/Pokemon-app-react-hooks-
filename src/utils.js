@@ -15,3 +15,13 @@ export const inputFilter = (arr, event, setFilter) => {
   setFilter(result);
   return result;
 };
+
+export const validateEmail = (email) => {
+  const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
+export const validatePassword = (password) => {
+  const re = /^[0-9a-zA-Z]{4,}$/;
+  return re.test(String(password));
+};

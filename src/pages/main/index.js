@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Pagination from '../../components/pagination';
 import Select from '../../components/select';
 import useFetch from '../../hooks/useFetch';
@@ -23,6 +23,10 @@ const Main = (props) => {
   const [currentSelect, setCurrentSelect] = useState({});
   const [subtypesFilter, setSubtypesFilter] = useState();
   const [typesFilter, setTypesFilter] = useState();
+  const [inputsValues, setInputsValues] = useState({
+    type: '',
+    subtype: '',
+  });
   //cards hooks
   const [
     { isLoading: isLoadingCards, response: responseCards, error: errorCards },
@@ -43,7 +47,7 @@ const Main = (props) => {
     setTypesFilter(responseTypes && responseTypes.data.types);
   }, [setSubtypesFilter, setTypesFilter, responseSubTypes, responseTypes]);
 
-  // сетим параметры, если они заданы в url
+  // сетим параметры селектов, если они заданы в url
   useEffect(() => {
     if (!currentSelect.subtype && props.match.params.subtypeId) {
       setCurrentSelect({
@@ -90,9 +94,14 @@ const Main = (props) => {
             {responseTypes && (
               <input
                 type="text"
-                onInput={(e) => {
+                onChange={(e) => {
                   inputFilter(responseTypes.data.types, e, setTypesFilter);
+                  setInputsValues({
+                    ...inputsValues,
+                    type: e.target.value,
+                  });
                 }}
+                defaultValue={inputsValues.type || ''}
               />
             )}
             <li className="list-group-item">
@@ -141,13 +150,18 @@ const Main = (props) => {
             {responseSubTypes && (
               <input
                 type="text"
-                onInput={(e) => {
+                onChange={(e) => {
                   inputFilter(
                     responseSubTypes.data.subtypes,
                     e,
                     setSubtypesFilter
                   );
+                  setInputsValues({
+                    ...inputsValues,
+                    subtype: e.target.value,
+                  });
                 }}
+                defaultValue={inputsValues.subtype || ''}
               />
             )}
             <li className="list-group-item">
@@ -205,12 +219,16 @@ const Main = (props) => {
                       <h3 className="card-title">{card.name}</h3>
                       <div className="card-text">Artist: {card.artist}</div>
                     </div>
-                    <NavLink
+                    <Link
                       className="btn btn-primary"
-                      to={`/cards/${card.id}`}
+                      // to={pathname `/cards/${card.id}`}
+                      to={{
+                        pathname: `/cards/${card.id}`,
+                        state: { from: props.location },
+                      }}
                     >
                       Подробнее
-                    </NavLink>
+                    </Link>
                   </div>
                 </div>
               ))}

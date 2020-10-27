@@ -9,6 +9,8 @@ const CardItem = (props) => {
     doFetch();
   }, [doFetch]);
 
+  console.log(props);
+
   return (
     <div className="container">
       <div className="card card-item my-3">

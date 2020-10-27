@@ -3,10 +3,11 @@ import { Redirect } from 'react-router-dom';
 import { CurrentUserContext } from '../../context/currentUserContext';
 import authImitation from '../../hooks/authImitation';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import { validateEmail, validatePassword } from '../../utils';
 
 const Authentication = () => {
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
   const [, setToken] = useLocalStorage('token');
   const [{ isLoading, response, error, otp }, doFetch] = authImitation();
@@ -16,10 +17,19 @@ const Authentication = () => {
   const [backError, setError] = useState('');
   const [otpInput, setOtpInput] = useState('');
   const [isDataValid, setIsDataValid] = useState(false);
+  const [isValidInputs, setIsValidInputs] = useState({
+    email: true,
+    password: true,
+  });
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    const user = { username, password };
+    setIsValidInputs({
+      email: validateEmail(email),
+      password: validatePassword(password),
+    });
+    if (!isValidInputs.email || !isValidInputs.email) return;
+    const user = { email, password };
     doFetch({
       method: 'post',
       data: {
@@ -65,11 +75,12 @@ const Authentication = () => {
                   <div className="form-group">
                     <label htmlFor="loginInput">Login</label>
                     <input
-                      type="text"
+                      type="email"
                       className="form-control"
                       id="loginInput"
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
+                    {!isValidInputs.email ? <p>Некорректный email</p> : null}
                   </div>
                   <div className="form-group">
                     <label htmlFor="passwordInput">Password</label>
@@ -79,6 +90,9 @@ const Authentication = () => {
                       id="passwordInput"
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    {!isValidInputs.password ? (
+                      <p>Некорректный password</p>
+                    ) : null}
                   </div>
                   {backError && backError}
                   <button
