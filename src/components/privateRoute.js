@@ -4,6 +4,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const [token] = useLocalStorage('token');
+  //Идет проверка токена, на практике этот токен нужно отправлять на сервер для проверки его валидности
   return (
     <Route
       {...rest}

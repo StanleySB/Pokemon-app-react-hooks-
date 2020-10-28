@@ -5,10 +5,11 @@ import logoImg from '../images/logo.png';
 
 const TopBar = (props) => {
   const [, setCurrentUserState] = useContext(CurrentUserContext);
+  //Проверка пропс (на детальной странице передаются, на общей нет)
   const [prevPage] = useState(
     props.location && props.location.state && props.location.state.from.pathname
   );
-
+  //Логаут
   const logoutHanlder = () => {
     setCurrentUserState((state) => ({
       ...state,
@@ -31,13 +32,9 @@ const TopBar = (props) => {
               Back
             </Link>
           ) : (
-            <Link
-              to="/"
-              className="btn logo"
-              style={{ height: '40px', padding: '0' }}
-            >
+            <div className="logo" style={{ height: '40px', padding: '0' }}>
               <img src={logoImg} alt="logo" height="100%" />
-            </Link>
+            </div>
           )}
 
           <Link

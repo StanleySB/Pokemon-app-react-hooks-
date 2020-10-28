@@ -1,11 +1,15 @@
+//core
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+//hooks
+import useFetch from '../../hooks/useFetch';
+//components
 import Error404 from '../../components/error404';
 import Loading from '../../components/loading';
 import Pagination from '../../components/pagination';
 import Select from '../../components/select';
 import TopBar from '../../components/topBar';
-import useFetch from '../../hooks/useFetch';
+//utils
 import { cardLimit, inputFilter } from '../../utils';
 
 const Main = (props) => {

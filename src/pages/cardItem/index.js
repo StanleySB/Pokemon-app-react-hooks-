@@ -1,7 +1,10 @@
+//core
 import React, { useEffect } from 'react';
+//hooks
+import useFetch from '../../hooks/useFetch';
+// components
 import Error404 from '../../components/error404';
 import TopBar from '../../components/topBar';
-import useFetch from '../../hooks/useFetch';
 import Loading from '../../components/loading';
 
 const CardItem = (props) => {
@@ -119,5 +122,3 @@ const CardItem = (props) => {
 };
 
 export default CardItem;
-
-// Почти хорошо, еще раз посмотреть перед отправкой

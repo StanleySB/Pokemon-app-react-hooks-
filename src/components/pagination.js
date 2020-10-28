@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { range } from '../utils';
 
+// Отдельный item пагинации, вся логика ниже
 const PaginationItem = ({ page, currentPage, url }) => {
   const liClasses = {
     pageItem: currentPage === page ? 'active page-item' : 'page-item',
@@ -26,6 +27,7 @@ const Pagination = ({ total, limit, url, currentPage }) => {
   //Например для страницы 5 при отступе 3 будет [first page, prev page, 5,6,7 nextpage, lastpage]
   const arrayOfRenderedPages = []; // Массив в который будут записываться числа для пагинации
 
+  //Если нет страниц, не рендерить компонент
   if (pages.length === 0) return null;
 
   const conditionForRender = () => {

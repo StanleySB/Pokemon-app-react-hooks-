@@ -1,8 +1,12 @@
+//core
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
+//context
 import { CurrentUserContext } from '../../context/currentUserContext';
+//hooks
 import authImitation from '../../hooks/useAuthImitation';
 import useLocalStorage from '../../hooks/useLocalStorage';
+//utils
 import { validateEmail, validatePassword } from '../../utils';
 
 const Authentication = () => {
@@ -22,6 +26,7 @@ const Authentication = () => {
     password: true,
   });
 
+  //Валидация на клиенте + отправка запроса на сервер
   const onHandleSubmit = (e) => {
     e.preventDefault();
     setIsValidInputs({
@@ -38,6 +43,7 @@ const Authentication = () => {
     });
   };
 
+  //Получение ответа от сервера, переход к OTP
   useEffect(() => {
     if (error && setBackError(() => <p>Invalid data</p>));
     if (!response) return;
@@ -45,6 +51,7 @@ const Authentication = () => {
     setIsDataValid(true);
   }, [response, error, otp]);
 
+  //Подтверждение отп, запись пользователя
   const onOtpConfirm = (e) => {
     e.preventDefault();
     if (otp === +otpInput) {
@@ -59,6 +66,7 @@ const Authentication = () => {
     }
   };
 
+  //Если все ок, редирект на основную страницу
   if (isSuccessfullSubmit) {
     return <Redirect to="/" />;
   }

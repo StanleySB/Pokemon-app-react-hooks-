@@ -1,5 +1,7 @@
+//core
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+//components
 import CardItem from './pages/cardItem';
 import Authentication from './pages/authentication';
 import Main from './pages/main';
